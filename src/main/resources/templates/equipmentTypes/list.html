@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Типы спортивного инвентаря</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Типы спортивного инвентаря</h1>
+        <p class="subtitle">Управление типами спортивного инвентаря</p>
+    </header>
+
+    <!--Навигация-->
+    <div class="navigation">
+        <a th:href="@{/availableEquipments}" class="nav-link">📋 Инвентарь</a>
+        <a th:href="@{/rentalPoints}" class="nav-link">🏪 Пункты проката</a>
+        <a th:href="@{/equipmentTypes}" class="nav-link">🏋️‍♂️ Типы инвентаря</a>
+    </div>
+
+    <!--Сообщения об успехе или ошибке-->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <!--Панель поиска и добавления типов инвентаря-->
+    <div class="action-panel">
+        <form th:action="@{/equipmentTypes/search}" method="get" class="search-form">
+            <select name="searchType" class="search-select">
+                <option value="typeName" th:selected="${searchType == 'typeName'}">По названию</option>
+                <option value="category" th:selected="${searchType == 'category'}">По категории</option>
+            </select>
+            <input type="text" name="searchQuery" th:value="${searchQuery}"
+                   placeholder="Введите текст для поиска..." class="search-input">
+            <button type="submit" class="btn btn-search">Найти</button>
+            <a th:href="@{/equipmentTypes}" class="btn btn-secondary">Сбросить</a>
+        </form>
+        <a th:href="@{/equipmentTypes/new}" class="btn btn-primary">+ Добавить тип инвентаря</a>
+    </div>
+
+    <!--Информация о количестве типов инвентаря-->
+    <div class="info-bar">
+        <span>Всего типов инвентаря: <strong th:text="${equipmentTypeCount}">0</strong></span>
+    </div>
+
+    <!--Таблица типов инвентаря-->
+    <div class="table-container">
+        <table th:if="${equipmentTypeCount > 0}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Описание</th>
+                <th class="actions-column">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="equipmentType : ${equipmentTypes}">
+                <td th:text="${equipmentType.id}">1</td>
+                <td>
+                    <a th:href="@{/equipmentTypes/view/{id}(id=${equipmentType.id})}" class="equipmentType-link"
+                       th:text="${equipmentType.typeName}">Название типа инвентаря</a>
+                </td>
+                <td th:text="${equipmentType.category}">Категория</td>
+                <td th:text="${equipmentType.description}">Описание</td>
+                <td class="actions">
+                    <a th:href="@{/equipmentTypes/view/{id}(id=${equipmentType.id})}"
+                       class="btn btn-small btn-view">Просмотр</a>
+                    <a th:href="@{/equipmentTypes/edit/{id}(id=${equipmentType.id})}"
+                       class="btn btn-small btn-edit">Изменить</a>
+                    <a th:href="@{/equipmentTypes/delete/{id}(id=${equipmentType.id})}"
+                       class="btn btn-small btn-delete"
+                       onclick="return confirm('Вы уверены, что хотите удалить этот тип инвентаря?')"
+                       title="Удалить">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--Сообщение в случае, если типов инвентаря в таблице нет-->
+        <div th:if="${equipmentTypeCount == 0}" class="empty-state">
+            <div class="empty-icon">🏋️‍♂️</div>
+            <h2>Типов инвентаря пока нет</h2>
+            <p>Начните добавлять типы инвентаря в систему</p>
+            <a th:href="@{/equipmentTypes/new}" class="btn btn-primary btn-large">Добавить первый тип инвентаря</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

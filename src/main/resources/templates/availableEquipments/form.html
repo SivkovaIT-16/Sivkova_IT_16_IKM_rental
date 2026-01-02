@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${action == 'edit'} ? 'Редактировать запись о доступном инвентаре' : 'Добавить запись о доступном инвентаре'">Форма доступного инвентаря</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 th:text="${action == 'edit'} ? 'Редактировать запись о доступном инвентаре' : 'Добавить запись о доступном инвентаре'">Форма доступного инвентаря</h1>
+        <p class="subtitle">Заполните информацию о доступном инвентаре</p>
+    </header>
+
+    <!--Навигация-->
+    <div class="navigation">
+        <a th:href="@{/availableEquipments}" class="nav-link">📋 Инвентарь</a>
+        <a th:href="@{/rentalPoints}" class="nav-link">🏪 Пункты проката</a>
+        <a th:href="@{/equipmentTypes}" class="nav-link">🏋️‍♂️ Типы инвентаря</a>
+    </div>
+
+    <!--Сообщения об ошибках-->
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <div class="form-container">
+        <form th:action="${action == 'edit'} ?
+                         @{/availableEquipments/update/{id}(id=${availableEquipment.availableId})} :
+                         @{/availableEquipments}"
+              th:object="${availableEquipment}"
+              method="post"
+              class="available-equipment-form">
+            <!--Пункт проката-->
+            <div class="form-group">
+                <label for="rentalPoint">Пункт проката <span class="required">*</span></label>
+                <select id="rentalPoint"
+                        th:field="*{rentalPoint}"
+                        th:classappend="${#fields.hasErrors('rentalPoint')} ? 'error' : ''"
+                        required>
+                    <option value="">Выберите пункт проката</option>
+                    <option th:each="point : ${rentalPoints}"
+                            th:value="${point.id}"
+                            th:text="${point.pointName} + ' (' + point.location + ')'"
+                            th:selected="${availableEquipment.rentalPoint != null && availableEquipment.rentalPoint.id == point.id}">
+                    </option>
+                </select>
+                <span class="error-message" th:if="${#fields.hasErrors('rentalPoint')}"
+                      th:errors="*{rentalPoint}"></span>
+            </div>
+
+            <!--Тип инвентаря-->
+            <div class="form-group">
+                <label for="equipmentType">Тип инвентаря <span class="required">*</span></label>
+                <select id="equipmentType"
+                        th:field="*{equipmentType}"
+                        th:classappend="${#fields.hasErrors('equipmentType')} ? 'error' : ''"
+                        required>
+                    <option value="">Выберите тип инвентаря</option>
+                    <option th:each="type : ${equipmentTypes}"
+                            th:value="${type.id}"
+                            th:text="${type.typeName} + ' (' + type.category + ')'"
+                            th:selected="${availableEquipment.equipmentType != null && availableEquipment.equipmentType.id == type.id}">
+                    </option>
+                </select>
+                <span class="error-message" th:if="${#fields.hasErrors('equipmentType')}"
+                      th:errors="*{equipmentType}"></span>
+            </div>
+
+
+            <!--Общее количество-->
+            <div class="form-group">
+                <label for="totalCount">Общее количество <span class="required">*</span></label>
+                <input type="number"
+                       id="totalCount"
+                       th:field="*{totalCount}"
+                       placeholder="0"
+                       th:classappend="${#fields.hasErrors('totalCount')} ? 'error' : ''"
+                       min="0"
+                       required>
+                <span class="error-message" th:if="${#fields.hasErrors('totalCount')}"
+                      th:errors="*{totalCount}"></span>
+            </div>
+
+            <!--Доступное количество-->
+            <div class="form-group">
+                <label for="availableCount">Доступное количество</label>
+
+                <input type="number"
+                       id="availableCount"
+                       th:field="*{availableCount}"
+                       placeholder="Оставьте пустым для автоматического заполнения"
+                       th:classappend="${#fields.hasErrors('availableCount')} ? 'error' : ''"
+                       min="0"
+                       th:attr="max=${availableEquipment.totalCount}">
+
+                <span class="error-message" th:if="${#fields.hasErrors('availableCount')}"
+                      th:errors="*{availableCount}"></span>
+
+                <div class="form-hint">
+        <span th:if="${action == 'create'}">
+            Если оставить пустым, будет равно общему количеству (<span th:text="${availableEquipment.totalCount}">0</span>)
+        </span>
+                    <span th:if="${action == 'edit'}">
+            Не может превышать общее количество: <span th:text="${availableEquipment.totalCount}">0</span>
+        </span>
+                </div>
+            </div>
+
+            <!--Стоимость-->
+            <div class="form-group">
+                <label for="cost">Стоимость аренды (руб./час) <span class="required">*</span></label>
+                <input type="number"
+                       id="cost"
+                       th:field="*{cost}"
+                       placeholder="100"
+                       th:classappend="${#fields.hasErrors('cost')} ? 'error' : ''"
+                       min="1"
+                       required>
+                <span class="error-message" th:if="${#fields.hasErrors('cost')}"
+                      th:errors="*{cost}"></span>
+            </div>
+
+            <!--Кнопки действий-->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-large">
+                    <span th:text="${action == 'edit'} ? 'Сохранить изменения' : 'Добавить запись о доступном инвентаре'"></span>
+                </button>
+                <a th:href="@{/availableEquipments}" class="btn btn-secondary btn-large">Отмена</a>
+            </div>
+
+            <p class="form-note"><span class="required">*</span> Обязательные поля</p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

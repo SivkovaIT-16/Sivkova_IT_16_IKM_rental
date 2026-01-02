@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доступный инвентарь в пунктах проката</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Доступный инвентарь</h1>
+        <p class="subtitle">Управление инвентарём в пунктах проката</p>
+    </header>
+
+    <!--Навигация-->
+    <div class="navigation">
+        <a th:href="@{/availableEquipments}" class="nav-link">📋 Инвентарь</a>
+        <a th:href="@{/rentalPoints}" class="nav-link">🏪 Пункты проката</a>
+        <a th:href="@{/equipmentTypes}" class="nav-link">🏋️‍♂️ Типы инвентаря</a>
+    </div>
+
+    <!--Сообщения об успехе или ошибке-->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <!--Кнопка добавления доступного инвентаря-->
+    <div class="action-panel">
+        <a th:href="@{/availableEquipments/new}" class="btn btn-primary">+ Добавить доступный инвентарь</a>
+    </div>
+
+    <!--Информация о количестве доступного инвентаря-->
+    <div class="info-bar">
+        <span>Всего записей: <strong th:text="${equipmentCount}">0</strong> |
+        С доступным инвентарём: <strong th:text="${availableEquipmentCount}">0</strong></span>
+    </div>
+
+    <!--Таблица доступного инвентаря-->
+    <div class="list-container" th:if="${availableEquipments != null and !availableEquipments.isEmpty()}">
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Пункт проката</th>
+                <th>Тип инвентаря</th>
+                <th>Общее количество</th>
+                <th>Доступно</th>
+                <th>Стоимость (руб./час)</th>
+                <th>Статус</th>
+                <th class="actions-column">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="availableEquipment : ${availableEquipments}">
+                <td th:text="${availableEquipment.availableId}">1</td>
+                <td>
+                    <strong th:text="${availableEquipment.rentalPoint.pointName}">Пункт проката</strong><br>
+                    <small th:text="${availableEquipment.rentalPoint.location}">Локация</small>
+                </td>
+                <td>
+                    <strong th:text="${availableEquipment.equipmentType.typeName}">Тип инвентаря</strong><br>
+                    <small th:text="${availableEquipment.equipmentType.category}">Категория</small>
+                </td>
+                <td th:text="${availableEquipment.totalCount}">10</td>
+                <td>
+                    <span th:text="${availableEquipment.availableCount}">5</span>
+                </td>
+                <td th:text="${availableEquipment.cost}">100</td>
+                <td>
+                    <span th:if="${availableEquipment.isAvailable()}" class="status status-available">✓ Доступен</span>
+                    <span th:unless="${availableEquipment.isAvailable()}" class="status status-unavailable">✗ Нет в наличии</span>
+                </td>
+                <td class="actions">
+                    <a th:href="@{/availableEquipments/view/{id}(id=${availableEquipment.availableId})}"
+                       class="btn btn-small btn-view">Просмотр</a>
+                    <a th:href="@{/availableEquipments/edit/{id}(id=${availableEquipment.availableId})}"
+                       class="btn btn-small btn-edit">Изменить</a>
+                    <a th:href="@{/availableEquipments/delete/{id}(id=${availableEquipment.availableId})}"
+                       class="btn btn-small btn-delete"
+                       onclick="return confirm('Вы уверены, что хотите удалить эту запись?')"
+                       title="Удалить">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Сообщение в случае, если записей в таблице нет-->
+    <div th:if="${availableEquipments != null and availableEquipments.empty}" class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h2>Доступного инвентаря пока нет</h2>
+        <p>Начните добавлять доступный инвентарь в систему</p>
+        <a th:href="@{/availableEquipments/new}" class="btn btn-primary btn-large">Добавить первую запись</a>
+    </div>
+</div>
+</body>
+</html>

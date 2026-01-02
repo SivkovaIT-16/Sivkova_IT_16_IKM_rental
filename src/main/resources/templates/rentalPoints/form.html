@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${action == 'edit'} ? 'Редактировать пункт проката' : 'Добавить пункт проката'">Форма пункта проката</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 th:text="${action == 'edit'} ? 'Редактировать пункт проката' : 'Добавить новый пункт проката'">Форма пункта проката</h1>
+        <p class="subtitle">Заполните информацию о точке проката</p>
+    </header>
+
+    <!--Навигация-->
+    <div class="navigation">
+        <a th:href="@{/availableEquipments}" class="nav-link">📋 Инвентарь</a>
+        <a th:href="@{/rentalPoints}" class="nav-link">🏪 Пункты проката</a>
+        <a th:href="@{/equipmentTypes}" class="nav-link">🏋️‍♂️ Типы инвентаря</a>
+    </div>
+
+    <div class="form-container">
+        <form th:action="${action == 'edit'} ? @{/rentalPoints/update/{id}(id=${rentalPoint.id})} : @{/rentalPoints}"
+              th:object="${rentalPoint}"
+              method="post"
+              class="rentalPoint-form">
+
+            <!--Название пункта проката-->
+            <div class="form-group">
+                <label for="pointName">Название пункта проката <span class="required">*</span></label>
+                <input type="text"
+                       id="pointName"
+                       th:field="*{pointName}"
+                       placeholder="Например: Абсолют Спорт"
+                       th:classappend="${#fields.hasErrors('pointName')} ? 'error' : ''"
+                       maxlength="200"
+                       required>
+                <span class="error-message" th:if="${#fields.hasErrors('pointName')}" th:errors="*{pointName}"></span>
+            </div>
+
+            <!--Расположение пункта проката-->
+            <div class="form-group">
+                <label for="location">Расположение <span class="required">*</span></label>
+                <input type="text"
+                       id="location"
+                       th:field="*{location}"
+                       placeholder="Например: г.Пермь, ул.Маршрутная, 9"
+                       th:classappend="${#fields.hasErrors('location')} ? 'error' : ''"
+                       maxlength="500"
+                       required>
+                <span class="error-message" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></span>
+                <span class="error-message" th:if="${errorMessage}" th:text="${errorMessage}"></span>
+            </div>
+
+            <!--Часы работы пункта проката-->
+            <div class="form-group">
+                <label for="openingHours">Часы работы <span class="required">*</span></label>
+                <input type="text"
+                       id="openingHours"
+                       th:field="*{openingHours}"
+                       placeholder="Например: 10:00–19:00"
+                       th:classappend="${#fields.hasErrors('openingHours')} ? 'error' : ''"
+                       maxlength="300"
+                       required>
+                <span class="error-message" th:if="${#fields.hasErrors('openingHours')}" th:errors="*{openingHours}"></span>
+            </div>
+
+            <!--Кнопки действий-->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-large">
+                    <span th:text="${action == 'edit'} ? 'Сохранить изменения' : 'Добавить пункт проката'"></span>
+                </button>
+                <a th:href="@{/rentalPoints}" class="btn btn-secondary btn-large">Отмена</a>
+            </div>
+
+            <p class="form-note"><span class="required">*</span> Обязательные поля</p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

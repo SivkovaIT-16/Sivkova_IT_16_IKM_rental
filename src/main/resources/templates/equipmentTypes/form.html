@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${action == 'edit'} ? 'Редактировать тип инвентаря' : 'Добавить тип инвентаря'">Форма типа инвентаря</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 th:text="${action == 'edit'} ? 'Редактировать тип инвентаря' : 'Добавить новый тип инвентаря'">Форма типа инвентаря</h1>
+        <p class="subtitle">Заполните информацию о типе инвентаря</p>
+    </header>
+
+    <!--Навигация-->
+    <div class="navigation">
+        <a th:href="@{/availableEquipments}" class="nav-link">📋 Инвентарь</a>
+        <a th:href="@{/rentalPoints}" class="nav-link">🏪 Пункты проката</a>
+        <a th:href="@{/equipmentTypes}" class="nav-link">🏋️‍♂️ Типы инвентаря</a>
+    </div>
+
+    <div class="form-container">
+        <form th:action="${action == 'edit'} ? @{/equipmentTypes/update/{id}(id=${equipmentType.id})} : @{/equipmentTypes}"
+              th:object="${equipmentType}"
+              method="post"
+              class="equipmentType-form">
+
+            <!--Название типа инвентаря-->
+            <div class="form-group">
+                <label for="typeName">Название типа инвентаря <span class="required">*</span></label>
+                <input type="text"
+                       id="typeName"
+                       th:field="*{typeName}"
+                       placeholder="Например: Сноуборд"
+                       th:classappend="${#fields.hasErrors('typeName')} ? 'error' : ''"
+                       maxlength="100"
+                       required>
+                <span class="error-message" th:if="${#fields.hasErrors('typeName')}" th:errors="*{typeName}"></span>
+            </div>
+
+            <!--Категория типа инвентаря-->
+            <div class="form-group">
+                <label for="category">Категория <span class="required">*</span></label>
+                <input type="text"
+                       id="category"
+                       th:field="*{category}"
+                       placeholder="Например: Зима"
+                       th:classappend="${#fields.hasErrors('category')} ? 'error' : ''"
+                       maxlength="50"
+                       list="category-list"
+                       required>
+                <datalist id="category-list">
+                    <option value="Зимний спорт">
+                    <option value="Летний спорт">
+                    <option value="Водный спорт">
+                    <option value="Туристическое снаряжение">
+                    <option value="Защитное снаряжение">
+                    <option value="Фитнес инвентарь">
+                    <option value="Домашний спорт">
+                    <option value="Тренажерный зал">
+                </datalist>
+                <span class="error-message" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
+            </div>
+
+            <!--Описание-->
+            <div class="form-group">
+                <label for="description">Описание </label>
+                <textarea id="description"
+                       th:field="*{description}"
+                       placeholder="Краткое описание типа инвентаря"
+                       th:classappend="${#fields.hasErrors('description')} ? 'error' : ''"
+                       maxlength="500"
+                       rows="4"></textarea>
+                <span class="error-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                <small class="form-help">Максимум 500 символов</small>
+            </div>
+
+            <!--Кнопки действий-->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-large">
+                    <span th:text="${action == 'edit'} ? 'Сохранить изменения' : 'Добавить тип инвентаря'"></span>
+                </button>
+                <a th:href="@{/equipmentTypes}" class="btn btn-secondary btn-large">Отмена</a>
+            </div>
+
+            <p class="form-note"><span class="required">*</span> Обязательные поля</p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пункты проката спортивного инвентаря</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Пункты проката спортивного инвентаря</h1>
+        <p class="subtitle">Управление пунктами проката спортивного инвентаря</p>
+    </header>
+
+    <!--Навигация-->
+    <div class="navigation">
+        <a th:href="@{/availableEquipments}" class="nav-link">📋 Инвентарь</a>
+        <a th:href="@{/rentalPoints}" class="nav-link">🏪 Пункты проката</a>
+        <a th:href="@{/equipmentTypes}" class="nav-link">🏋️‍♂️ Типы инвентаря</a>
+    </div>
+
+    <!--Сообщения об успехе или ошибке-->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <!--Панель поиска и добавления пунктов проката-->
+    <div class="action-panel">
+        <form th:action="@{/rentalPoints/search}" method="get" class="search-form">
+            <select name="searchType" class="search-select">
+                <option value="pointName" th:selected="${searchType == 'pointName'}">По названию</option>
+                <option value="location" th:selected="${searchType == 'location'}">По расположению</option>
+                <option value="openingHours" th:selected="${searchType == 'openingHours'}">По часам работы</option>
+            </select>
+            <input type="text" name="searchQuery" th:value="${searchQuery}"
+                   placeholder="Введите текст для поиска..." class="search-input">
+            <button type="submit" class="btn btn-search">Найти</button>
+            <a th:href="@{/rentalPoints}" class="btn btn-secondary">Сбросить</a>
+        </form>
+        <a th:href="@{/rentalPoints/new}" class="btn btn-primary">+ Добавить пункт проката</a>
+    </div>
+
+    <!--Информация о количестве пунктов проката-->
+    <div class="info-bar">
+        <span>Всего пунктов проката: <strong th:text="${rentalPointCount}">0</strong></span>
+    </div>
+
+    <!--Таблица пунктов проката-->
+    <div class="table-container">
+        <table th:if="${rentalPointCount > 0}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Расположение</th>
+                <th>Часы работы</th>
+                <th class="actions-column">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rentalPoint : ${rentalPoints}">
+                <td th:text="${rentalPoint.id}">1</td>
+                <td>
+                    <a th:href="@{/rentalPoints/view/{id}(id=${rentalPoint.id})}" class="rentalPoint-link"
+                       th:text="${rentalPoint.pointName}">Название пункта проката</a>
+                </td>
+                <td th:text="${rentalPoint.location}">Расположение</td>
+                <td th:text="${rentalPoint.openingHours}">Часы работы</td>
+                <td class="actions">
+                    <a th:href="@{/rentalPoints/view/{id}(id=${rentalPoint.id})}"
+                       class="btn btn-small btn-view">Просмотр</a>
+                    <a th:href="@{/rentalPoints/edit/{id}(id=${rentalPoint.id})}"
+                       class="btn btn-small btn-edit">Изменить</a>
+                    <a th:href="@{/rentalPoints/delete/{id}(id=${rentalPoint.id})}"
+                       class="btn btn-small btn-delete"
+                       onclick="return confirm('Вы уверены, что хотите удалить этот пункт проката?')"
+                       title="Удалить">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--Сообщение в случае, если пунктов проката в таблице нет-->
+        <div th:if="${rentalPointCount == 0}" class="empty-state">
+            <div class="empty-icon">📍</div>
+            <h2>Пунктов проката пока нет</h2>
+            <p>Начните добавлять пункты проката в систему</p>
+            <a th:href="@{/rentalPoints/new}" class="btn btn-primary btn-large">Добавить первый пункт проката</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
