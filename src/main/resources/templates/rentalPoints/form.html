@@ -59,7 +59,7 @@
                 <input type="text"
                        id="openingHours"
                        th:field="*{openingHours}"
-                       placeholder="Например: 10:00–19:00"
+                       placeholder="Например: Пн-Пт: 10:00-22:00, Сб-Вс: 9:00-23:00"
                        th:classappend="${#fields.hasErrors('openingHours')} ? 'error' : ''"
                        maxlength="300"
                        required>
