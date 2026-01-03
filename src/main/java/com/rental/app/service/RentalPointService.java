@@ -9,27 +9,73 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Сервис для работы с пунктами проката ({@link RentalPoint}).
+ * <p>
+ * Содержит бизнес-логику для управления пунктами проката, включая создание,
+ * обновление, удаление и поиск. Гарантирует уникальность адресов пунктов проката.
+ * Каждый метод выполняется в отдельной транзакции базы данных.
+ * </p>
+ * <p>
+ * <b>Транзакции:</b> Spring автоматически управляет транзакциями -
+ * открывает перед вызовом метода и закрывает после его завершения.
+ * При возникновении исключения все изменения в базе данных откатываются.
+ * </p>
+ * @see RentalPoint
+ * @see RentalPointRepository
+ * @see Service
+ * @see Transactional
+ */
 @Service
 @Transactional
 public class RentalPointService {
     private final RentalPointRepository rentalPointRepository;
 
+    /**
+     * Создает сервис с указанным репозиторием пунктов проката.
+     *
+     * @param rentalPointRepository репозиторий для доступа к данным пунктов проката
+     */
     @Autowired
     public RentalPointService(RentalPointRepository rentalPointRepository) {
         this.rentalPointRepository = rentalPointRepository;
     }
 
-    // Получение всех пунктов проката
+    /**
+     * Получает все пункты проката из системы.
+     *
+     * @return список всех пунктов проката (может быть пустым)
+     */
     public List<RentalPoint> getAllRentalPoints() {
         return rentalPointRepository.findAll();
     }
 
-    // Получение пунктов проката по Id
+    /**
+     * Находит пункт проката по его идентификатору.
+     * <p>
+     * Использует {@link Optional} для корректной обработки случаев,
+     * когда пункт проката не найден.
+     * </p>
+     *
+     * @param id идентификатор пункта проката
+     * @return {@link Optional}, содержащий пункт проката, если найден,
+     * или пустой {@link Optional}, если не найден
+     */
     public Optional<RentalPoint> getRentalPointById(Long id) {
         return rentalPointRepository.findById(id);
     }
 
-    // Сохранение нового пункта проката
+    /**
+     * Сохраняет новый пункт проката в системе.
+     * <p>
+     * Перед сохранением проверяет уникальность адреса пункта проката.
+     * </p>
+     *
+     * @param rentalPoint пункт проката для сохранения
+     * @return сохраненный пункт проката
+     * @throws IllegalArgumentException если адрес пункта проката уже существует в системе
+     * @see RentalPointRepository#existsByLocation(String)
+     */
     public RentalPoint saveRentalPoint(RentalPoint rentalPoint) {
         // Проверка уникальности расположения
         if (rentalPointRepository.existsByLocation(rentalPoint.getLocation())) {
@@ -39,12 +85,23 @@ public class RentalPointService {
         return rentalPointRepository.save(rentalPoint);
     }
 
-    // Обновление уже существующего пункта проката
+    /**
+     * Обновляет существующий пункт проката.
+     * <p>
+     * Находит пункт проката по идентификатору, проверяет уникальность нового адреса
+     * (если адрес был изменен), обновляет поля и сохраняет изменения.
+     * </p>
+     *
+     * @param id идентификатор обновляемого пункта проката
+     * @param rentalPointDetails объект с новыми значениями полей
+     * @return обновленный пункт проката
+     * @throws RuntimeException если пункт проката с указанным id не найден
+     * @throws IllegalArgumentException если новый адрес уже используется другим пунктом проката
+     */
     public RentalPoint updateRentalPoint(Long id, RentalPoint rentalPointDetails) {
         RentalPoint rentalPoint = rentalPointRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Пункт проката с Id: " + id + " не найден."));
 
-        // Проверка уникальности расположения
         if (!rentalPoint.getLocation().equals(rentalPointDetails.getLocation()) &&
                 rentalPointRepository.existsByLocation(rentalPointDetails.getLocation())) {
             throw new IllegalArgumentException(
@@ -58,27 +115,69 @@ public class RentalPointService {
         return rentalPointRepository.save(rentalPoint);
     }
 
-    // Удаление пункта проката
+    /**
+     * Удаляет пункт проката по идентификатору.
+     * <p>
+     * Если пункт проката не существует, метод завершается без ошибки
+     * (Spring Data JPA не выбрасывает исключение при удалении несуществующей записи).
+     * </p>
+     *
+     * @param id идентификатор удаляемого пункта проката
+     * @see RentalPointRepository#deleteById(Object)
+     */
     public void deleteRentalPoint(Long id) {
         rentalPointRepository.deleteById(id);
     }
 
-    // Поиск пункта проката по названию
+    /**
+     * Ищет пункты проката по части названия.
+     * <p>
+     * Поиск выполняется без учета регистра символов.
+     * </p>
+     *
+     * @param pointName подстрока для поиска в названии пункта проката
+     * @return список найденных пунктов проката (может быть пустым)
+     * @see RentalPointRepository#findByPointNameContainingIgnoreCase(String)
+     */
     public List<RentalPoint> searchByPointName(String pointName) {
         return rentalPointRepository.findByPointNameContainingIgnoreCase(pointName);
     }
 
-    // Поиск пункта проката по расположению
+    /**
+     * Ищет пункты проката по части адреса.
+     * <p>
+     * Поиск выполняется без учета регистра символов.
+     * </p>
+     *
+     * @param location подстрока для поиска в адресе пункта проката
+     * @return список найденных пунктов проката (может быть пустым)
+     * @see RentalPointRepository#findByLocationContainingIgnoreCase(String)
+     */
     public List<RentalPoint> searchByLocation(String location) {
         return rentalPointRepository.findByLocationContainingIgnoreCase(location);
     }
 
-    // Поиск пункта проката по часам работы
+    /**
+     * Ищет пункты проката по части часов работы.
+     * <p>
+     * Поиск выполняется с учетом регистра символов, так как часы работы
+     * могут содержать специфические сокращения и символы.
+     * </p>
+     *
+     * @param openingHours подстрока для поиска в часах работы
+     * @return список найденных пунктов проката (может быть пустым)
+     * @see RentalPointRepository#findByOpeningHoursContaining(String)
+     */
     public List<RentalPoint> searchByOpeningHours(String openingHours) {
         return rentalPointRepository.findByOpeningHoursContaining(openingHours);
     }
 
-    // Получение общего количества пунктов проката
+    /**
+     *Возвращает общее количество пунктов проката в системе.
+     *
+     * @return количество пунктов проката
+     * @see RentalPointRepository#count()
+     */
     public long getRentalPointCount() {
         return rentalPointRepository.count();
     }
