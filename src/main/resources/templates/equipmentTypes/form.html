@@ -61,6 +61,7 @@
                     <option value="Тренажерный зал">
                 </datalist>
                 <span class="error-message" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
+                <span class="error-message" th:if="${errorMessage}" th:text="${errorMessage}"></span>
             </div>
 
             <!--Описание-->
