@@ -13,18 +13,9 @@ import java.util.List;
  * а также специализированные методы для поиска пунктов проката.
  * Spring автоматически создаёт реализацию этого репозитория.
  * </p>
- * <p>
- * <b>Особенности работы:</b>
- * <ul>
- *   <li>Spring автоматически создаёт SQL-запросы по названиям методов</li>
- *   <li>Поиск выполняется без учёта регистра (contains)</li>
- *   <li>Spring оптимизирует запросы для лучшей скорости</li>
- *   <li>Встроены пагинация (разбивка на страницы) и сортировка через наследование от {@link JpaRepository}</li>
- * </ul>
- * </p>
  *
  * @see EquipmentType
- * @see org.springframework.data.jpa.repository.JpaRepository
+ * @see JpaRepository
  */
 @Repository
 public interface EquipmentTypeRepository extends JpaRepository<EquipmentType, Long>{
@@ -55,14 +46,15 @@ public interface EquipmentTypeRepository extends JpaRepository<EquipmentType, Lo
     /**
      * Проверяет, существует ли уже тип инвентаря с указанным названием.
      * <p>
-     * Проверка выполняется с учётом точного совпадения названия (не учитывая регистр),
-     * так как тип должен быть уникальным в системе.
+     * Проверка выполняется с учётом точного совпадения названия без учёта регистра (функция {@code LOWER()}).
+     * Использует аннотацию {@link Query} с JPQL-запросом.
      * Используется для обеспечения уникальности названий типов инвентаря в системе.
      * </p>
      *
      * @param typeName название типа инвентаря для проверки (например: "Велосипед")
      * @return {@code true} если тип инвентаря с таким названием уже существует,
      * {@code false} если название свободно
+     * @see Query
      * @see EquipmentType#getTypeName()
      * @see EquipmentType#setTypeName(String)
      */

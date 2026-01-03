@@ -152,9 +152,9 @@ public class EquipmentType {
      * Создает новый тип инвентаря с указанными значениями.
      * </p>
      *
-     * @param typeName название типа инвентаря (не null, не пустое, 1-100 символов, уникальное)
-     * @param category категория инвентаря (не null, не пустое, 1-50 символов)
-     * @param description описание инвентаря (может быть null, максимум 500 символов)
+     * @param typeName название типа инвентаря
+     * @param category категория инвентаря
+     * @param description описание инвентаря
      */
     public EquipmentType(String typeName, String category, String description) {
         this.typeName = typeName;
@@ -195,8 +195,7 @@ public class EquipmentType {
     /**
      * Устанавливает название типа инвентаря.
      *
-     * @param typeName новое название типа инвентаря (не null, не пустое, 1-100 символов, уникальное)
-     * @throws IllegalArgumentException если typeName не соответствует ограничениям
+     * @param typeName новое название типа инвентаря
      */
     public void setTypeName(String typeName) {
         this.typeName = typeName;
@@ -218,8 +217,7 @@ public class EquipmentType {
      * список предопределённых категорий, но можно ввести и свою.
      * </p>
      *
-     * @param category новая категория инвентаря (не null, не пустое, 1-50 символов)
-     * @throws IllegalArgumentException если category не соответствует ограничениям
+     * @param category новая категория инвентаря
      */
     public void setCategory(String category) {
         this.category = category;
@@ -228,7 +226,7 @@ public class EquipmentType {
     /**
      * Возвращает описание типа инвентаря.
      *
-     * @return описание типа инвентаря (может быть null)
+     * @return описание типа инвентаря
      */
     public String getDescription() {
         return description;
@@ -237,8 +235,7 @@ public class EquipmentType {
     /**
      * Устанавливает описание типа инвентаря.
      *
-     * @param description новое описание инвентаря (может быть null, максимум 500 символов)
-     * @throws IllegalArgumentException если description превышает 500 символов
+     * @param description новое описание инвентаря
      */
     public void setDescription(String description) {
         this.description = description;

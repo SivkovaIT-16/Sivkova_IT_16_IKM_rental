@@ -140,9 +140,9 @@ public class RentalPoint {
      * Создает новый пункт проката с указанными значениями.
      * </p>
      *
-     * @param pointName название пункта проката (не null, не пустое, 1-200 символов)
-     * @param location расположение пункта проката (не null, не пустое, 1-300 символов, уникальное)
-     * @param openingHours часы работы (не null, не пустое, 1-500 символов)
+     * @param pointName название пункта проката
+     * @param location расположение пункта проката
+     * @param openingHours часы работы
      */
     public RentalPoint(String pointName, String location, String openingHours) {
         this.pointName = pointName;
@@ -183,8 +183,7 @@ public class RentalPoint {
     /**
      * Устанавливает название пункта проката.
      *
-     * @param pointName новое название пункта проката (не null, не пустое, 1-200 символов)
-     * @throws IllegalArgumentException если pointName не соответствует ограничениям
+     * @param pointName новое название пункта проката
      */
     public void setPointName(String pointName) {
         this.pointName = pointName;
@@ -202,8 +201,7 @@ public class RentalPoint {
     /**
      * Устанавливает расположение пункта проката.
      *
-     * @param location новое расположение пункта проката (не null, не пустое, 1-300 символов, уникальное)
-     * @throws IllegalArgumentException если location не соответствует ограничениям
+     * @param location новое расположение пункта проката
      */
     public void setLocation(String location) {
         this.location = location;
@@ -221,8 +219,7 @@ public class RentalPoint {
     /**
      * Устанавливает часы работы пункта проката.
      *
-     * @param openingHours новые часы работы пункта проката (не null, не пустое, 1-500 символов)
-     * @throws IllegalArgumentException если openingHours не соответствует ограничениям
+     * @param openingHours новые часы работы пункта проката
      */
     public void setOpeningHours(String openingHours) {
         this.openingHours = openingHours;

@@ -214,11 +214,11 @@ public class AvailableEquipment {
      * Создает новую запись о доступном инвентаре с указанными значениями.
      * </p>
      *
-     * @param rentalPoint пункт проката (не null)
-     * @param equipmentType тип инвентаря (не null)
-     * @param totalCount общее количество (не null, >= 0)
-     * @param availableCount доступное количество (может быть null, >= 0, <= totalCount)
-     * @param cost стоимость аренды в час (не null, >= 1)
+     * @param rentalPoint пункт проката
+     * @param equipmentType тип инвентаря
+     * @param totalCount общее количество
+     * @param availableCount доступное количество
+     * @param cost стоимость аренды в час
      */
     public AvailableEquipment(RentalPoint rentalPoint, EquipmentType equipmentType,
                               Integer totalCount, Integer availableCount, Integer cost) {
@@ -262,8 +262,7 @@ public class AvailableEquipment {
     /**
      * Устанавливает пункт проката.
      *
-     * @param rentalPoint новый пункт проката (не null)
-     * @throws IllegalArgumentException если rentalPoint равен null
+     * @param rentalPoint новый пункт проката
      */
     public void setRentalPoint(RentalPoint rentalPoint) {
         this.rentalPoint = rentalPoint;
@@ -281,8 +280,7 @@ public class AvailableEquipment {
     /**
      * Устанавливает тип инвентаря.
      *
-     * @param equipmentType новый тип инвентаря (не null)
-     * @throws IllegalArgumentException если equipmentType равен null
+     * @param equipmentType новый тип инвентаря
      */
     public void setEquipmentType(EquipmentType equipmentType) {
         this.equipmentType = equipmentType;
@@ -300,8 +298,7 @@ public class AvailableEquipment {
     /**
      * Устанавливает общее количество инвентаря.
      *
-     * @param totalCount новое общее количество (не null, >= 0)
-     * @throws IllegalArgumentException если totalCount не соответствует ограничениям
+     * @param totalCount новое общее количество
      */
     public void setTotalCount(Integer totalCount) {
         this.totalCount = totalCount;
@@ -323,8 +320,7 @@ public class AvailableEquipment {
      * что установленное значение не превышает {@code totalCount}.
      * </p>
      *
-     * @param availableCount новое доступное количество (может быть null, >= 0, <= totalCount)
-     * @throws IllegalArgumentException если availableCount не соответствует ограничениям
+     * @param availableCount новое доступное количество
      */
     public void setAvailableCount(Integer availableCount) {
         this.availableCount = availableCount;
@@ -342,8 +338,7 @@ public class AvailableEquipment {
     /**
      * Устанавливает стоимость аренды в час.
      *
-     * @param cost новая стоимость аренды (не null, >= 1)
-     * @throws IllegalArgumentException если cost не соответствует ограничениям
+     * @param cost новая стоимость аренды
      */
     public void setCost(Integer cost) {
         this.cost = cost;
