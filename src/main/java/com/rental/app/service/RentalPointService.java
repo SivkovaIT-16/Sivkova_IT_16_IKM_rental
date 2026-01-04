@@ -77,7 +77,6 @@ public class RentalPointService {
      * @see RentalPointRepository#existsByLocation(String)
      */
     public RentalPoint saveRentalPoint(RentalPoint rentalPoint) {
-        // Проверка уникальности расположения
         if (rentalPointRepository.existsByLocation(rentalPoint.getLocation())) {
             throw new IllegalArgumentException(
                     "Пункт проката по адресу \"" + rentalPoint.getLocation() + "\" уже существует.");
@@ -118,14 +117,17 @@ public class RentalPointService {
     /**
      * Удаляет пункт проката по идентификатору.
      * <p>
-     * Если пункт проката не существует, метод завершается без ошибки
-     * (Spring Data JPA не выбрасывает исключение при удалении несуществующей записи).
+     * Проверяет существование пункта проката перед удалением.
      * </p>
      *
      * @param id идентификатор удаляемого пункта проката
+     * @throws RuntimeException если пункт проката с указанным id не найден
      * @see RentalPointRepository#deleteById(Object)
      */
     public void deleteRentalPoint(Long id) {
+        if (!rentalPointRepository.existsById(id)) {
+            throw new RuntimeException("Пункт проката с ID: " + id + " не найден.");
+        }
         rentalPointRepository.deleteById(id);
     }
 
