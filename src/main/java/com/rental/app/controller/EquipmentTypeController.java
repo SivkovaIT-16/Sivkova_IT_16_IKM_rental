@@ -12,17 +12,54 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+/**
+ * Контроллер для работы с типами инвентаря через веб-интерфейс.
+ * <p>
+ * Обрабатывает HTTP-запросы, связанные с управлением типами инвентаря ({@link EquipmentType}).
+ * Предоставляет пользовательский интерфейс для выполнения CRUD-операций: создание,
+ * просмотр, редактирование и удаление типов инвентаря, а также поиск по названию и категории.
+ * </p>
+ * <p>
+ * <b>Маршруты:</b> Все методы работают по базовому пути {@code /equipmentTypes}.
+ * Использует Thymeleaf шаблоны для отображения HTML-страниц.
+ * </p>
+ * <p>
+ * <b>Особенности:</b> Гарантирует уникальность названий типов инвентаря независимо от регистра.
+ * При попытке создания или редактирования типа с уже существующим названием (в любом регистре)
+ * выбрасывается исключение {@link IllegalArgumentException}.
+ * </p>
+ *
+ * @see EquipmentType
+ * @see EquipmentTypeService
+ * @see Controller
+ * @see GetMapping
+ * @see PostMapping
+ */
 @Controller
 @RequestMapping("/equipmentTypes")
 public class EquipmentTypeController {
     private final EquipmentTypeService equipmentTypeService;
 
+    /**
+     * Создает контроллер с указанным сервисом типов инвентаря.
+     *
+     * @param equipmentTypeService сервис для бизнес-логики типов инвентаря
+     */
     @Autowired
     public EquipmentTypeController(EquipmentTypeService equipmentTypeService) {
         this.equipmentTypeService = equipmentTypeService;
     }
 
-    // Главная страница - список всех типов инвентаря
+    /**
+     * Отображает главную страницу со списком всех типов инвентаря.
+     * <p>
+     * Получает все типы инвентаря из системы и передает их в модель для отображения.
+     * Вычисляет и передает общее количество типов инвентаря.
+     * </p>
+     *
+     * @param model модель для передачи данных в представление
+     * @return имя Thymeleaf шаблона "equipmentTypes/list"
+     */
     @GetMapping
     public String listEquipmentType(Model model) {
         List<EquipmentType> equipmentTypes = equipmentTypeService.getAllEquipmentTypes();
@@ -31,7 +68,16 @@ public class EquipmentTypeController {
         return "equipmentTypes/list";
     }
 
-    // Страница добавления нового типа инвентаря
+    /**
+     * Отображает форму для создания нового типа инвентаря.
+     * <p>
+     * Подготавливает пустой объект {@link EquipmentType} для заполнения в форме.
+     * Устанавливает атрибут "action" в значение "create" для правильного отображения формы.
+     * </p>
+     *
+     * @param model модель для передачи данных в представление
+     * @return имя Thymeleaf шаблона "equipmentTypes/form"
+     */
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("equipmentType", new EquipmentType());
@@ -39,7 +85,23 @@ public class EquipmentTypeController {
         return "equipmentTypes/form";
     }
 
-    // Обработка создания нового типа инвентаря
+    /**
+     * Обрабатывает создание нового типа инвентаря.
+     * <p>
+     * Принимает данные из формы, выполняет валидацию с помощью аннотаций сущности.
+     * Проверяет уникальность названия типа инвентаря (без учета регистра).
+     * При успешном сохранении перенаправляет на список типов инвентаря с сообщением об успехе.
+     * </p>
+     *
+     * @param equipmentType объект типа инвентаря с данными из формы
+     * @param result результат валидации (содержит ошибки, если есть)
+     * @param redirectAttributes атрибуты для передачи данных при перенаправлении
+     * @param model модель для передачи данных в представление
+     * @return имя Thymeleaf шаблона или редирект на список типов инвентаря
+     * @throws IllegalArgumentException если тип инвентаря с таким названием уже существует
+     * @see Valid
+     * @see BindingResult
+     */
     @PostMapping
     public String createEquipmentType(@Valid @ModelAttribute("equipmentType") EquipmentType equipmentType,
                                     BindingResult result,
@@ -66,7 +128,19 @@ public class EquipmentTypeController {
         return "redirect:/equipmentTypes";
     }
 
-    // Страница редактирования типа инвентаря
+    /**
+     * Отображает форму для редактирования существующего типа инвентаря.
+     * <p>
+     * Находит тип инвентаря по идентификатору и передает его в форму для редактирования.
+     * Если тип инвентаря не найден, перенаправляет на список с сообщением об ошибке.
+     * Устанавливает атрибут "action" в значение "edit" для правильного отображения формы.
+     * </p>
+     *
+     * @param id идентификатор редактируемого типа инвентаря
+     * @param model модель для передачи данных в представление
+     * @param redirectAttributes атрибуты для передачи данных при перенаправлении
+     * @return имя Thymeleaf шаблона или редирект на список типов инвентаря
+     */
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model,
                                RedirectAttributes redirectAttributes) {
@@ -83,7 +157,23 @@ public class EquipmentTypeController {
         return "equipmentTypes/form";
     }
 
-    // Обработка обновления типа инвентаря
+    /**
+     * Обрабатывает обновление существующего типа инвентаря.
+     * <p>
+     * Находит тип инвентаря по идентификатору, обновляет его данные из формы.
+     * Проверяет уникальность нового названия (без учета регистра), если название изменилось.
+     * При успешном обновлении перенаправляет на список типов инвентаря с сообщением об успехе.
+     * </p>
+     *
+     * @param id идентификатор обновляемого типа инвентаря
+     * @param equipmentType объект с новыми данными типа инвентаря
+     * @param result результат валидации
+     * @param redirectAttributes атрибуты для передачи данных при перенаправлении
+     * @param model модель для передачи данных в представление
+     * @return имя Thymeleaf шаблона или редирект на список типов инвентаря
+     * @throws IllegalArgumentException если новое название уже используется другим типом инвентаря
+     * @throws RuntimeException если тип инвентаря с указанным id не найден
+     */
     @PostMapping("/update/{id}")
     public String updateEquipmentType(@PathVariable("id") Long id,
                                     @Valid @ModelAttribute("equipmentType") EquipmentType equipmentType,
@@ -112,7 +202,18 @@ public class EquipmentTypeController {
         return "redirect:/equipmentTypes";
     }
 
-    // Удаление типа инвентаря
+    /**
+     * Удаляет тип инвентаря по идентификатору.
+     * <p>
+     * Находит тип инвентаря по идентификатору, удаляет его из системы.
+     * При успешном удалении перенаправляет на список типов инвентаря с сообщением об успехе.
+     * Если тип инвентаря не найден или произошла ошибка, показывает соответствующее сообщение.
+     * </p>
+     *
+     * @param id идентификатор удаляемого типа инвентаря
+     * @param redirectAttributes атрибуты для передачи данных при перенаправлении
+     * @return редирект на список типов инвентаря
+     */
     @GetMapping("/delete/{id}")
     public String deleteEquipmentType(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -135,7 +236,18 @@ public class EquipmentTypeController {
         return "redirect:/equipmentTypes";
     }
 
-    // Просмотр деталей типа инвентаря
+    /**
+     * Отображает страницу с детальной информацией о типе инвентаря.
+     * <p>
+     * Находит тип инвентаря по идентификатору и отображает все его данные.
+     * Если тип инвентаря не найден, перенаправляет на список с сообщением об ошибке.
+     * </p>
+     *
+     * @param id идентификатор просматриваемого типа инвентаря
+     * @param model модель для передачи данных в представление
+     * @param redirectAttributes атрибуты для передачи данных при перенаправлении
+     * @return имя Thymeleaf шаблона или редирект на список типов инвентаря
+     */
     @GetMapping("/view/{id}")
     public String viewEquipmentType(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         EquipmentType equipmentType = equipmentTypeService.getEquipmentTypeById(id)
@@ -150,7 +262,20 @@ public class EquipmentTypeController {
         return "equipmentTypes/view";
     }
 
-    // Поиск типов инвентаря
+    /**
+     * Выполняет поиск типов инвентаря по различным критериям.
+     * <p>
+     * Поддерживает поиск по названию и категории.
+     * Если поисковый запрос пустой, возвращает все типы инвентаря.
+     * Поиск выполняется без учета регистра для обоих критериев.
+     * По умолчанию используется поиск по названию.
+     * </p>
+     *
+     * @param searchType тип поиска ("typeName", "category")
+     * @param searchQuery поисковый запрос (подстрока для поиска)
+     * @param model модель для передачи данных в представление
+     * @return имя Thymeleaf шаблона "equipmentTypes/list"
+     */
     @GetMapping("/search")
     public String searchEquipmentTypes(@RequestParam(required = false) String searchType,
                                      @RequestParam(required = false) String searchQuery,
