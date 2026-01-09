@@ -1,6 +1,6 @@
 package com.rental.app.repository;
 
-import com.rental.app.model.entity.EquipmentType;
+import com.rental.app.entity.EquipmentType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

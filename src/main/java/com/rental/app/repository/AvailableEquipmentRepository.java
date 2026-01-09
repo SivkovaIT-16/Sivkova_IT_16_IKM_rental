@@ -1,6 +1,7 @@
 package com.rental.app.repository;
 
-import com.rental.app.model.entity.AvailableEquipment;
+import com.rental.app.entity.RentalPoint;
+import com.rental.app.entity.AvailableEquipment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,7 @@ public interface AvailableEquipmentRepository extends JpaRepository<AvailableEqu
      *
      * @param rentalPointId ID пункта проката
      * @return список доступного инвентаря в указанном пункте или пустой список, если инвентаря нет
-     * @see com.rental.app.model.entity.RentalPoint
+     * @see RentalPoint
      */
     List<AvailableEquipment> findByRentalPointId(Long rentalPointId);
 

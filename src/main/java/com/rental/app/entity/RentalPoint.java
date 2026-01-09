@@ -1,4 +1,4 @@
-package com.rental.app.model.entity;
+package com.rental.app.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

@@ -1,6 +1,6 @@
 package com.rental.app.service;
 
-import com.rental.app.model.entity.EquipmentType;
+import com.rental.app.entity.EquipmentType;
 import com.rental.app.repository.EquipmentTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

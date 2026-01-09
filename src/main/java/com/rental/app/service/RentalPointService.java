@@ -1,6 +1,6 @@
 package com.rental.app.service;
 
-import com.rental.app.model.entity.RentalPoint;
+import com.rental.app.entity.RentalPoint;
 import com.rental.app.repository.RentalPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

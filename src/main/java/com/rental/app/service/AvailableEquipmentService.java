@@ -1,8 +1,8 @@
 package com.rental.app.service;
 
-import com.rental.app.model.entity.AvailableEquipment;
-import com.rental.app.model.entity.EquipmentType;
-import com.rental.app.model.entity.RentalPoint;
+import com.rental.app.entity.AvailableEquipment;
+import com.rental.app.entity.EquipmentType;
+import com.rental.app.entity.RentalPoint;
 import com.rental.app.repository.AvailableEquipmentRepository;
 import com.rental.app.repository.EquipmentTypeRepository;
 import com.rental.app.repository.RentalPointRepository;

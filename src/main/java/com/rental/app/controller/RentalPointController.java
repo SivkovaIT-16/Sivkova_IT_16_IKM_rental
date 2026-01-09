@@ -1,6 +1,6 @@
 package com.rental.app.controller;
 
-import com.rental.app.model.entity.RentalPoint;
+import com.rental.app.entity.RentalPoint;
 import com.rental.app.service.RentalPointService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
