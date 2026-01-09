@@ -29,24 +29,40 @@
 src/
 ├── main/
 │   ├── java/com/rental/app/
-│   │   ├── RentalApplication.java    # главный класс
+│   │   ├── RentalApplication.java                       # главный класс
 │   │   ├── controller/
-│   │   │   ├── AvailableEquipmentController.java  # контроллер доступного инвентаря
-│   │   │   ├── EquipmentTypeController.java       # контроллер типов инвентаря
-│   │   │   ├── HomeController.java                # контроллер домашней страницы
-│   │   │   └── RentalPointController.java         # контроллер пунктов проката
+│   │   │   ├── AvailableEquipmentController.java        # контроллер доступного инвентаря
+│   │   │   ├── EquipmentTypeController.java             # контроллер типов инвентаря
+│   │   │   ├── HomeController.java                      # контроллер домашней страницы
+│   │   │   └── RentalPointController.java               # контроллер пунктов проката
 │   │   ├── entity/
-│   │   │   └── Album.java                  # класс с сущностью альбома
+│   │   │   ├── AvailableEquipment.java                  # класс с сущностью доступного инвентаря
+│   │   │   ├── EquipmentType.java                       # класс с сущностью типа инвентаря
+│   │   │   └── RentalPoint.java                         # класс с сущностью пункта проката
 │   │   ├── repository/
-│   │   │   └── AlbumRepository.java        # репозиторий для работы с БД
+│   │   │   ├── AvailableEquipmentRepository.java        # репозиторий для работы с БД для доступного инвентаря
+│   │   │   ├── EquipmentTypeRepository.java             # репозиторий для работы с БД для типа инвентаря
+│   │   │   └── RentalPointRepository.java               # репозиторий для работы с БД для пункта проката
 │   │   └── service/
-│   │       └── AlbumService.java           # бизнес-логика
+│   │   │   ├── AvailableEquipmentService.java           # бизнес логика для доступного инвентаря
+│   │   │   ├── EquipmentTypeService.java                # бизнес-логика для типа инвентаря
+│   │       └── RentalPointService.java                  # бизнес-логика для пункта проката
 │   └── resources/
 │       ├── static/css/
-│       │   └── style.css                   # стили приложения
-│       ├── templates/albums/
-│       │   ├── list.html                   # список альбомов
-│       │   ├── form.html                   # форма добавления/редактирования
-│       │   └── view.html                   # просмотр альбома
-│       └── application.properties          # конфигурация
+│       │   └── style.css                                # стили приложения
+│       ├── templates/
+│       │   ├── avaliableEquipments
+│       │   │   ├── form.html                            # форма добавления/редактирования дступного инвентаря
+│       │   │   ├── list.html                     # список доступного инвентаря
+│       │   │   └── view.html                     # просмотр доступного инвентаря
+│       │   ├── equipmentTypes
+│       │   │   ├── form.html                     # форма добавления/редактирования типа инвентаря
+│       │   │   ├── list.html                     # список типов инвентаря
+│       │   │   └── view.html                     # просмотр типа инвентаря
+│       │   ├── rentalPoints
+│       │   │   ├── form.html                     # форма добавления/редактирования 
+│       │   │   ├── list.html                     # список пунктов проката
+│       │   │   └── view.html                     # просмотр пункта проката
+│       └── application.properties                # конфигурация
+
 </pre>
