@@ -45,8 +45,7 @@ src/
 │   │   └── service/
 │   │   │   ├── AvailableEquipmentService.java           # бизнес-логика для доступного инвентаря
 │   │   │   ├── EquipmentTypeService.java                # бизнес-логика для типа инвентаря
-│   │   │   └── RentalPointService.java                  # бизнес-логика для пункта 
-проката
+│   │   │   └── RentalPointService.java                  # бизнес-логика для пункта проката
 │   │   └── RentalApplication.java                       # главный класс
 │   └── resources/
 │   │   ├── static/css/
