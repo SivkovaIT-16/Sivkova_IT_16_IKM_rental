@@ -2,6 +2,8 @@ package com.rental.app.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Сущность, представляющая доступный инвентарь в пункте проката.
@@ -65,6 +67,8 @@ public class AvailableEquipment {
      * <p>
      * Обязательное поле. Связь многие-к-одному с сущностью {@link RentalPoint}.
      * Не может быть null.
+     * <b>Каскадное удаление:</b> При удалении пункта проката будут автоматически
+     * удалены все связанные записи в available_equipment.
      * </p>
      * <p>
      * <b>Связь с базой данных:</b> Хранится как внешний ключ к таблице {@code rental_points}.
@@ -75,6 +79,7 @@ public class AvailableEquipment {
     @ManyToOne
     @JoinColumn(name = "point_id", nullable = false)
     @NotNull(message = "Точка проката должна быть указана.")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private RentalPoint rentalPoint;
 
     /**
@@ -82,6 +87,8 @@ public class AvailableEquipment {
      * <p>
      * Обязательное поле. Связь многие-к-одному с сущностью {@link EquipmentType}.
      * Не может быть null.
+     * <b>Каскадное удаление:</b> При удалении типа инвентаря будут автоматически
+     * удалены все связанные записи в available_equipment.
      * </p>
      * <p>
      * <b>Связь с базой данных:</b> Хранится как внешний ключ к таблице {@code equipment_types}.
@@ -92,6 +99,7 @@ public class AvailableEquipment {
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = false)
     @NotNull(message = "Тип инвентаря должен быть указан.")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private EquipmentType equipmentType;
 
     /**
