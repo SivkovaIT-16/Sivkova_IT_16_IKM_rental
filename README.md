@@ -23,3 +23,29 @@
 - Редактирование существующих записей (количество, стоимость)
 - Удаление записей о наличии инвентаря
 - Проверка вводимых данных (уникальность комбинации "пункт проката + тип инвентаря"
+
+## Структура проекта
+src/
+├── main/
+│   ├── java/com/rental/app/
+│   │   ├── RentalApplication.java    # главный класс
+│   │   ├── controller/
+│   │   │   ├── AvailableEquipmentController.java  # контроллер доступного инвентаря
+│   │   │   ├── EquipmentTypeController.java       # контроллер типов инвентаря
+│   │   │   ├── HomeController.java                # контроллер домашней страницы
+│   │   │   └── RentalPointController.java         # контроллер пунктов проката
+│   │   ├── entity/
+│   │   │   └── Album.java                  # класс с сущностью альбома
+│   │   ├── repository/
+│   │   │   └── AlbumRepository.java        # репозиторий для работы с БД
+│   │   └── service/
+│   │       └── AlbumService.java           # бизнес-логика
+│   └── resources/
+│       ├── static/css/
+│       │   └── style.css                   # стили приложения
+│       ├── templates/albums/
+│       │   ├── list.html                   # список альбомов
+│       │   ├── form.html                   # форма добавления/редактирования
+│       │   └── view.html                   # просмотр альбома
+│       └── application.properties          # конфигурация
+
