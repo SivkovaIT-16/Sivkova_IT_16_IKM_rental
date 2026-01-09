@@ -29,7 +29,6 @@
 src/
 ├── main/
 │   ├── java/com/rental/app/
-│   │   ├── RentalApplication.java                       # главный класс
 │   │   ├── controller/
 │   │   │   ├── AvailableEquipmentController.java        # контроллер доступного инвентаря
 │   │   │   ├── EquipmentTypeController.java             # контроллер типов инвентаря
@@ -46,7 +45,9 @@ src/
 │   │   └── service/
 │   │   │   ├── AvailableEquipmentService.java           # бизнес-логика для доступного инвентаря
 │   │   │   ├── EquipmentTypeService.java                # бизнес-логика для типа инвентаря
-│   │       └── RentalPointService.java                  # бизнес-логика для пункта проката
+│   │   │   └── RentalPointService.java                  # бизнес-логика для пункта 
+проката
+│   │   └── RentalApplication.java                       # главный класс
 │   └── resources/
 │   │   ├── static/css/
 │   │   │   └── style.css                                # стили приложения
