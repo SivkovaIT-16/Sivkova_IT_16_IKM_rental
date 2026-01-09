@@ -42,12 +42,12 @@ src/
 │   │   │   ├── AvailableEquipmentRepository.java        # репозиторий для работы с БД для доступного инвентаря
 │   │   │   ├── EquipmentTypeRepository.java             # репозиторий для работы с БД для типа инвентаря
 │   │   │   └── RentalPointRepository.java               # репозиторий для работы с БД для пункта проката
-│   │   └── service/
+│   │   ├── service/
 │   │   │   ├── AvailableEquipmentService.java           # бизнес-логика для доступного инвентаря
 │   │   │   ├── EquipmentTypeService.java                # бизнес-логика для типа инвентаря
 │   │   │   └── RentalPointService.java                  # бизнес-логика для пункта проката
 │   │   └── RentalApplication.java                       # главный класс
-│   └── resources/
+│   ├── resources/
 │   │   ├── static/css/
 │   │   │   └── style.css                                # стили приложения
 │   │   ├── templates/
