@@ -44,13 +44,13 @@ src/
 │   │   │   ├── EquipmentTypeRepository.java             # репозиторий для работы с БД для типа инвентаря
 │   │   │   └── RentalPointRepository.java               # репозиторий для работы с БД для пункта проката
 │   │   └── service/
-│   │   │   ├── AvailableEquipmentService.java           # бизнес логика для доступного инвентаря
+│   │   │   ├── AvailableEquipmentService.java           # бизнес-логика для доступного инвентаря
 │   │   │   ├── EquipmentTypeService.java                # бизнес-логика для типа инвентаря
 │   │       └── RentalPointService.java                  # бизнес-логика для пункта проката
 │   └── resources/
 │   │   ├── static/css/
 │   │   │   └── style.css                                # стили приложения
-│   │  ├── templates/
+│   │   ├── templates/
 │   │   │   ├── avaliableEquipments
 │   │   │   │   ├── form.html                            # форма добавления/редактирования дступного инвентаря
 │   │   │   │   ├── list.html                            # список доступного инвентаря
