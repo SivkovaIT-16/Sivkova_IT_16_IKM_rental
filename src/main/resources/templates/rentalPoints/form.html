@@ -24,7 +24,8 @@
         <form th:action="${action == 'edit'} ? @{/rentalPoints/update/{id}(id=${rentalPoint.id})} : @{/rentalPoints}"
               th:object="${rentalPoint}"
               method="post"
-              class="rentalPoint-form">
+              class="rentalPoint-form"
+              autocomplete="off">
 
             <!--Название пункта проката-->
             <div class="form-group">

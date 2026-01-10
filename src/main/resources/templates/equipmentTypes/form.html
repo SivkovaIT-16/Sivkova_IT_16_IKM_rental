@@ -24,7 +24,8 @@
         <form th:action="${action == 'edit'} ? @{/equipmentTypes/update/{id}(id=${equipmentType.id})} : @{/equipmentTypes}"
               th:object="${equipmentType}"
               method="post"
-              class="equipmentType-form">
+              class="equipmentType-form"
+              autocomplete="off">
 
             <!--Название типа инвентаря-->
             <div class="form-group">

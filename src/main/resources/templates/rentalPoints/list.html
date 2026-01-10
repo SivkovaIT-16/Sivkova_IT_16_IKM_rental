@@ -30,7 +30,7 @@
 
     <!--Панель поиска и добавления пунктов проката-->
     <div class="action-panel">
-        <form th:action="@{/rentalPoints/search}" method="get" class="search-form">
+        <form th:action="@{/rentalPoints/search}" method="get" class="search-form" autocomplete="off">
             <select name="searchType" class="search-select">
                 <option value="pointName" th:selected="${searchType == 'pointName'}">По названию</option>
                 <option value="location" th:selected="${searchType == 'location'}">По расположению</option>

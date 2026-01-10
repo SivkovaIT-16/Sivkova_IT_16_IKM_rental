@@ -30,7 +30,7 @@
 
     <!--Панель поиска и добавления типов инвентаря-->
     <div class="action-panel">
-        <form th:action="@{/equipmentTypes/search}" method="get" class="search-form">
+        <form th:action="@{/equipmentTypes/search}" method="get" class="search-form" autocomplete="off">
             <select name="searchType" class="search-select">
                 <option value="typeName" th:selected="${searchType == 'typeName'}">По названию</option>
                 <option value="category" th:selected="${searchType == 'category'}">По категории</option>
